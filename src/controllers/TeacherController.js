@@ -9,20 +9,18 @@ module.exports = {
 
     async disable(req, res) {
         const { id } = req.params
-
         const teacher = await connection('teachers').where('id', id).first()
 
-        if (teacher) {
-            if (teacher.is_active == true) {
-                await connection('teachers').where('id', id).update('is_active', false)
-                const teacherUpdated = await connection('teachers').where('id', id).first()
-                return res.json(teacherUpdated)
-            } else {
-                return res.status(400).json( { error: 'user is already inactive' })
-            }
-        } else {
-            return res.status(404).json( { error: 'user does not exists' })
+        if (!teacher) {
+            return res.status(404).send()
         }
+
+        if(teacher.is_active === 0) {
+            return res.status(400).send()
+        }
+
+        await connection('teachers').where('id', id).update('is_active', 1)
+        return res.status(204).send()
     },
 
     async create(req, res) {
