@@ -4,7 +4,7 @@ exports.up = function(knex) {
       table.string('code').notNullable();
       table.string('schedule').notNullable();
       table.datetime('start_date').notNullable();
-      table.string('teacher_id').notNullable();
+      table.integer('teacher_id').notNullable();
       table.foreign('teacher_id').references('id').inTable('teachers');
     });
   };

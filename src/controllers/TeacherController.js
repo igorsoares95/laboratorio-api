@@ -2,14 +2,15 @@ const connection = require('../database/connection')
 
 module.exports = {
     async index(req, res) {
-        const ongs = await connection('teachers').select('*')
-
-        return res.json(ongs)
+        const teachers = await connection('teachers').select('*')
+        return res.json(teachers)
     },
 
     async disable(req, res) {
         const { id } = req.params
         const teacher = await connection('teachers').where('id', id).first()
+
+        console.log(teacher)
 
         if (!teacher) {
             return res.status(404).send()
@@ -19,7 +20,7 @@ module.exports = {
             return res.status(400).send()
         }
 
-        await connection('teachers').where('id', id).update('is_active', 1)
+        await connection('teachers').where('id', id).update('is_active', 0)
         return res.status(204).send()
     },
 

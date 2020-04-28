@@ -6,7 +6,7 @@ exports.up = function(knex) {
       table.decimal('email_zoom').notNullable();
       table.string('whatsapp').notNullable();
       table.string('duration').notNullable();
-      table.string('classroom_id').notNullable();
+      table.integer('classroom_id').notNullable();
       table.foreign('classroom_id').references('id').inTable('classrooms');
     });
   };
